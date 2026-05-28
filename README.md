@@ -38,4 +38,5 @@ O sistema simula uma experiência completa de pedidos, desde a visualização do
 ## 🚀 Como Executar
 
 ### Acessar o link online
-[https://SEU-USUARIO.github.io/raizes-nordeste/](https://SEU-USUARIO.github.io/raizes-nordeste/)
+https://sahwow.github.io/Rede-Ra-zes-do-Nordeste---Projeto-Desenvolvimento-Front-End/
+
