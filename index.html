@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Raízes do Nordeste - Sistema de Pedidos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌵</text></svg>">
+</head>
+<body>
+<div class="container">
+    <div class="header-banner"></div>
+
+    <!-- exibir avatar, nome, pontos e botão de logout, preenche pelo javaScript após login -->
+    <div id="user-bar" class="user-bar"></div>
+
+    <!-- tela de boas-vindas antes de fazer login -->
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-content">
+            <div class="welcome-icon">🌵</div>
+            <h2>Seja bem-vindo(a)!</h2>
+            <p>Sabores que aquecem o coração e trazem a verdadeira culinária nordestina para o seu dia a dia.</p>
+            <button id="welcome-login-btn" class="btn-primary">Fazer pedido 🍽️</button>
+            <button id="welcome-visitante-btn" class="btn-visitante">👀 Ver cardápio</button>
+        </div>
+    </div>
+
+    <!-- pop-up de login e cadastro de novos usuários -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Entrar na sua conta</h3>
+            <div id="auth-error" class="error-msg"></div>
+            <!-- modo cadastro -->
+            <input type="text" id="auth-nome" placeholder="Nome completo" style="display: none;">
+            <input type="email" id="auth-email" placeholder="E-mail">
+            <input type="password" id="auth-senha" placeholder="Senha">
+            <button id="auth-submit" class="btn-modal">Entrar</button>
+            <div class="modal-switch">
+                <a id="auth-switch-link">Entrar 🔄️ Criar</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-content" style="display: none;">
+
+        <!-- cardápios diferentes por unidade -->
+        <div id="unidade-section">
+            <div class="unidade-selector">
+                <label>Selecione uma unidade:</label>
+                <select id="unidade-select">
+                    <option value="recife">Recife - Boa Viagem (Cozinha completa)</option>
+                    <option value="olinda">Olinda - Centro (Formato reduzido)</option>
+                    <option value="caruaru">Caruaru - Alto do Moura (Cozinha completa)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- escolher entre retirar na unidade ou delivery -->
+        <div class="entrega-selector">
+            <label>Selecione a forma de entrega:</label>
+            <div class="entrega-opcoes">
+                <label class="entrega-option">
+                    <input type="radio" name="entrega" value="retirar" checked> Retirar na unidade
+                </label>
+                <label class="entrega-option">
+                    <input type="radio" name="entrega" value="delivery"> Delivery
+                </label>
+            </div>
+            <!-- campo de endereço aparece apenas se escolher delivery -->
+            <div id="endereco-field" class="endereco-field" style="display: none;">
+                <input type="text" id="endereco" placeholder="Digite o seu endereço completo">
+            </div>
+        </div>
+
+        <!-- barra de progresso que simula o andamento do pedido -->
+        <div id="status-card" class="status-card">
+            <div class="status-header">
+                <span>🍽️ <strong>Pedido #<span id="pedido-numero">---</span></strong></span>
+                <span class="status-badge" id="pedido-status">Aguardando Pagamento</span>
+            </div>
+            <div class="status-progress">
+                <div class="status-steps" id="status-steps">
+                    <div class="step" data-step="0">Pagamento</div>
+                    <div class="step" data-step="1">Recebido</div>
+                    <div class="step" data-step="2">Preparando</div>
+                    <div class="step" data-step="3">Pronto!</div>
+                    <div class="step" data-step="4">Entregue</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            
+            <div class="menu-section">
+                <!-- barra de busca de produtos -->
+                <div class="search-bar">
+                    <input type="text" id="busca-produto" placeholder="Buscar produto... (ex: tapioca, cuscuz)">
+                </div>
+
+                <h2 style="margin-bottom: 15px;">Cardápio da unidade</h2>
+                <!-- produtos do cardápio são inseridos -->
+                <div class="menu-grid" id="menu-container"></div>
+            </div>
+
+            <!-- carrinho de compras -->
+            <div class="cart-section">
+                <h2>Seu pedido</h2>
+                <!-- container de itens adicionados ao carrinho -->
+                <div id="cart-items-container"></div>
+                
+                <!-- subtotal antes dos descontos -->
+                <div id="cart-total" class="cart-total">
+                    <span>Subtotal:</span>
+                    <span id="subtotal-value">R$ 0,00</span>
+                </div>
+                
+                <!-- aparece apenas após o login -->
+                <div class="pontos-area" id="pontos-area" style="display: none;">
+                    <label>Usar pontos de fidelidade:</label>
+                    <div class="pontos-controles">
+                        <input type="number" id="pontos-usar" min="0" value="0" step="10">
+                        <button id="aplicar-pontos">Aplicar desconto</button>
+                    </div>
+                    <div id="pontos-info" class="pontos-info"></div>
+                </div>
+                
+                <div class="cupom-area">
+                    <input type="text" id="cupom-input" placeholder="Cupom de desconto">
+                    <button id="aplicar-cupom">Aplicar</button>
+                </div>
+                <div id="cupom-mensagem" class="mensagem-desconto"></div>
+                
+                <!-- total final após todos os descontos -->
+                <div class="cart-total-final">
+                    <span>Total:</span>
+                    <span id="total-value">R$ 0,00</span>
+                </div>
+                
+                <button class="btn-checkout" id="checkout-btn">Ir para pagamento</button>
+            </div>
+        </div>
+
+        <!-- aparece automaticamente quando o pedido é finalizado (status "Retirado/Entregue") -->
+        <div id="avaliacao-section" class="avaliacao-section" style="display: none;">
+            <div class="avaliacao-card">
+                <h3>Avalie o seu pedido!</h3>
+                <p>Como foi sua experiência com o pedido <strong id="avaliacao-pedido-numero-tela">---</strong>?</p>
+                <!-- avaliação por estrelas (1 a 5) -->
+                <div class="rating-stars" id="rating-stars-tela">
+                    <span data-rating="1">★</span>
+                    <span data-rating="2">★</span>
+                    <span data-rating="3">★</span>
+                    <span data-rating="4">★</span>
+                    <span data-rating="5">★</span>
+                </div>
+                <textarea id="avaliacao-comentario-tela" placeholder="Deixe um comentário (opcional)"></textarea>
+                <div class="avaliacao-buttons">
+                    <button id="enviar-avaliacao-tela" class="btn-primary">Enviar avaliação</button>
+                    <button id="depois-avaliacao-tela" class="btn-secondary">Depois</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- pop-up que simula a integração com um serviço externo de pagamento -->
+    <div id="pagamento-modal" class="modal-pagamento">
+        <div class="modal-pagamento-content">
+            <h3>Pagamento</h3>
+            <p style="margin: 10px 0;">Total a pagar: <strong id="modal-total">R$ 0,00</strong></p>
+            
+            <!-- exibir mensagem de sucesso ou erro após processamento -->
+            <div id="pagamento-status" class="status-pagamento" style="display: none;"></div>
+            
+            <!-- opções de método de pagamento -->
+            <div id="metodos-pagamento">
+                <h4>Selecione a forma de pagamento:</h4>
+                <div class="metodo-pagamento">
+                    <div class="metodo-btn" data-metodo="credito">Crédito</div>
+                    <div class="metodo-btn" data-metodo="debito">Débito</div>
+                    <div class="metodo-btn" data-metodo="pix">Pix</div>
+                    <div class="metodo-btn" data-metodo="dinheiro">Dinheiro</div>
+                </div>
+            </div>
+            
+            <!-- loading enquanto aguarda resposta -->
+            <div id="loading-pagamento" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Processando pagamento com serviço externo...</p>
+            </div>
+            
+            <button id="btn-processar" class="btn-pagar">Processar Pagamento</button>
+            <button id="btn-cancelar-pagamento" class="btn-pagar btn-cancelar-pagamento">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- mensagens temporárias que aparecem no canto inferior -->
+    <div id="toast-notification" class="toast-notification"></div>
+
+    <footer>🌵 Raízes do Nordeste • Respeitamos sua privacidade (LGPD) • Protótipo - por Sarah Soares</footer>
+</div>
+
+<script src="js/utils.js"></script>           
+<script src="js/autenticacao.js"></script>   
+<script src="js/carrinho.js"></script>
+<script src="js/pagamento.js"></script>   
+<script src="js/pedido.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
