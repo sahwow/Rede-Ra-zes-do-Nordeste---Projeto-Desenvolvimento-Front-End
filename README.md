@@ -4,13 +4,13 @@
 [![Front-end](https://img.shields.io/badge/Front--end-HTML%2FCSS%2FJS-orange)]()
 [![License](https://img.shields.io/badge/license-MIT-blue)]()
 
-## 📋 Sobre o Projeto
+## Sobre o Projeto
 
 Sistema de pedidos online para a rede de lanchonetes **Raízes do Nordeste**, desenvolvido como projeto multidisciplinar da UNINTER (trilha Front-end).
 
 O sistema simula uma experiência completa de pedidos, desde a visualização do cardápio até a avaliação do pedido, passando por carrinho, cupons, pontos de fidelidade e pagamento integrado com serviço externo.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 - **Login/Cadastro** - Usuários podem criar conta ou acessar com e-mail/senha
 - **Modo Visitante** - Visualizar cardápio sem necessidade de login
@@ -27,7 +27,7 @@ O sistema simula uma experiência completa de pedidos, desde a visualização do
 - **LGPD** - Consentimento explícito para uso de dados pessoais
 - **Responsivo** - Funciona em desktop, tablet e mobile
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **HTML5** - Estrutura das telas
 - **CSS3** - Estilização, grid responsivo e animações
@@ -35,8 +35,8 @@ O sistema simula uma experiência completa de pedidos, desde a visualização do
 - **LocalStorage** - Persistência de dados (usuários, carrinho, sessão)
 - **GitHub Pages** - Hospedagem do protótipo
 
-## 🚀 Como Executar
+## Para Executar
 
-### Acessar o link online
+### Acesse o link online
 https://sahwow.github.io/Rede-Ra-zes-do-Nordeste---Projeto-Desenvolvimento-Front-End/
 
